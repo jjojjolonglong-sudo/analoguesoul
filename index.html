@@ -284,6 +284,15 @@ body.mvmode #ed{user-select:none;cursor:default}
 #pomo .dw{height:42px;overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 30%,#000 75%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 75%,transparent)}
 #pomo .r{height:14px;line-height:14px;white-space:nowrap;overflow:hidden}#pomo .r0{opacity:.4}#pomo .r2{opacity:.6;font-style:italic}
 body.hid #pomo{display:none!important}
+#logsheet{height:calc(var(--H)*.78)}
+#logsheet .stp{height:4.5px;border:.6px solid #8b9298;background:linear-gradient(180deg,#f4f6f8 0,#f4f6f8 30%,#aab1b8 32%,#c8cdd2 100%);border-radius:1.5px;box-shadow:0 .8px 1px rgba(0,0,0,.28)}
+#logsheet .stp:after{content:"";position:absolute;left:3px;right:6px;top:.8px;height:1px;background:rgba(255,255,255,.85);border-radius:1px}
+#pomo{position:absolute;left:-64px;top:0;width:236px;height:78px;z-index:-3;transform:rotate(-2deg);background:#f1b9a3;box-shadow:0 1px 2px rgba(80,40,25,.3);padding:0;display:flex;font-family:var(--mf,'IBM Plex Sans KR','Malgun Gothic',sans-serif);color:#5b392e;font-size:10px;cursor:pointer;user-select:none}
+#pomo .pn{width:12px;flex:none;background:rgba(255,255,255,.3);box-shadow:inset -1px 0 0 rgba(120,60,40,.12)}
+#pomo .tb{width:52px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0 2px}
+#pomo .tm{font-size:15px;letter-spacing:.02em}#pomo .md{flex:none;font-size:9.5px;opacity:.75;white-space:nowrap}
+#pomo .pb{height:16px;padding:0 5px;border:1px solid rgba(91,57,46,.55);background:rgba(255,255,255,.28);color:inherit;font-family:inherit;font-size:9.5px;cursor:pointer}
+#pomo .dw{flex:1;margin:18px 10px;height:42px}#pomo .r{font-size:10px}
 </style>
 </head>
 <body>
@@ -301,8 +310,8 @@ body.hid #pomo{display:none!important}
 </div>
 <div id="wk">
  <aside id="side"></aside>
- <main id="desk"><div id="book"><div id="cover"></div><div id="boards"></div><div id="logsheet"><div class="sh sh3"></div><div class="sh sh2"></div><div class="sh sh1"></div><div class="bgp"></div><div class="lin"></div><div class="fold" title="다음 페이지"><i></i></div><div class="stp"></div><div class="ttl">작업기록</div></div><div id="deco"></div><div id="sp">
-  <div class="pp" id="pl"><div class="ln"></div><i class="ti"></i><i class="no"></i><div class="gl" id="gy"><span class="gp">어제 목표 : </span><span class="gv" data-ph="(어제의 목표를 입력하지 않았습니다.)"></span></div><div id="pomo"><div class="ph"><span class="tm">25:00</span><span class="md">대기</span><button class="pb">시작</button></div><div class="dw"><div class="dl"></div></div></div></div>
+ <main id="desk"><div id="book"><div id="cover"></div><div id="boards"></div><div id="logsheet"><div class="sh sh3"></div><div class="sh sh2"></div><div class="sh sh1"></div><div class="bgp"></div><div class="lin"></div><div class="fold" title="다음 페이지"><i></i></div><div class="stp"></div><div class="ttl">작업기록</div></div><div id="pomo"><div class="pn"></div><div class="tb"><span class="tm">25:00</span><span class="md">대기</span><button class="pb">시작</button></div><div class="dw"><div class="dl"></div></div></div><div id="deco"></div><div id="sp">
+  <div class="pp" id="pl"><div class="ln"></div><i class="ti"></i><i class="no"></i><div class="gl" id="gy"><span class="gp">어제 목표 : </span><span class="gv" data-ph="(어제의 목표를 입력하지 않았습니다.)"></span></div></div>
   <div class="pp" id="pr"><div class="ln"></div><i class="ti"></i><i class="no"></i><div class="gl" id="gt"><span class="gp">오늘 목표 : </span><span class="gv" data-ph="(오늘의 목표를 입력하세요.)"></span></div></div>
   <div id="gut"></div>
   <div id="clip"><div id="ed" contenteditable="true" spellcheck="false"></div></div><div id="cl"></div>
@@ -579,8 +588,8 @@ function renderLog(){const el=$('#logsheet .lin'),z=n=>n.toLocaleString(),fm=t=>
  el.innerHTML='<div class="lb"></div><div class="lpn"></div>';const lb=el.firstChild,cap=Math.max(25,Math.floor((LH()-66-62)/25)*25);lb.style.height=cap+'px';
  lb.innerHTML=html.join('');const pages=[];let pg=[],used=0;[...lb.children].forEach((r,i)=>{const rh=r.offsetHeight||25;if(used+rh>cap&&pg.length){pages.push(pg);pg=[];used=0}pg.push(i);used+=rh});if(pg.length)pages.push(pg);if(!pages.length)pages.push([]);
  lnp=pages.length;lp=Math.min(lp,lnp-1);lb.innerHTML=pages[lp].map(i=>html[i]).join('');el.lastChild.textContent=lp+1}
-function logPose(up){const W=G.W,H=G.H;return up?{left:18+W*.025,top:14+H*.075,rot:-0.9}:{left:-34,top:H*.1,rot:-3.2}}
-function placeLog(){const el=$('#logsheet');if(!el||!G.W)return;fitLog();{const k=G.W+'x'+G.H;if(placeLog.k!==k){placeLog.k=k;renderLog()}}const p=logPose(logUp);el.style.left=p.left+'px';el.style.top=p.top+'px';el.style.transform=`rotate(${p.rot}deg)`;if(logUp)el.classList.add('up')}
+function logPose(up){const W=G.W,H=G.H;return up?{left:18+W*.025,top:14+H*.075,rot:-0.9}:{left:-34,top:H*.08+100,rot:-3.2}}
+function placeLog(){const el=$('#logsheet');if(!el||!G.W)return;fitLog();{const k=G.W+'x'+G.H;if(placeLog.k!==k){placeLog.k=k;renderLog()}}const p=logPose(logUp);el.style.left=p.left+'px';el.style.top=p.top+'px';el.style.transform=`rotate(${p.rot}deg)`;if(logUp)el.classList.add('up');placePomo()}
 function logGo(up){const el=$('#logsheet');if(!G.W)return;const f=p=>({left:p.left+'px',top:p.top+'px',transform:`rotate(${p.rot}deg)`}),a=f(logPose(0)),b=f(logPose(1));logUp=up;if(up){el.classList.add('up');el.style.zIndex=++zTop}renderLog();placeLog();el.getAnimations().forEach(x=>x.cancel());
  const an=el.animate(up?[a,b]:[b,a],{duration:450,easing:'cubic-bezier(.3,.7,.2,1)'});an.onfinish=()=>{if(!logUp){el.classList.remove('up');el.style.zIndex=''}}}
 function raiseLog(){logGo(1)}
@@ -589,7 +598,7 @@ $('#logsheet .lin').oncontextmenu=e=>{e.preventDefault();e.stopPropagation();if(
 // ── 집필기록장 ──
 let zTop=12,SH=S.shared||[];
 function seedR(id){let sd=Math.abs(hash(String(id)))||7;return()=>{sd=(sd*1103515245+12345)&0x7fffffff;return sd/0x7fffffff}}
-const LW=()=>Math.round(G.W*.68),LH=()=>Math.round(G.H*.86),FOLD=56;
+const LW=()=>Math.round(G.W*.68),LH=()=>Math.round(G.H*.78),FOLD=56;
 function tornPoly(w,h,seed,fold){const r=seedR(seed),k=Math.max(10,Math.round(h/15)),P=[[w,0],[w,h-fold],[w-fold,h]];for(let i=k;i>=0;i--)P.push([r()*(i%2?5:2.2),h*i/k]);return 'polygon('+P.map(p=>p[0].toFixed(1)+'px '+p[1].toFixed(1)+'px').join(',')+')'}
 function fitLog(){}
 const CLIPSVG=`<svg width="92" height="50" viewBox="0 0 92 50"><rect x="4" y="16" width="84" height="30" rx="6" fill="#c9cfd4" stroke="#8a9198"/><rect x="4.5" y="16.5" width="83" height="10" rx="5" fill="#e8ebee"/><path d="M28 16V10Q28 3 36 3H56Q64 3 64 10V16" fill="none" stroke="#8a9198" stroke-width="4" stroke-linecap="round"/><path d="M28 16V10Q28 3 36 3H56Q64 3 64 10V16" fill="none" stroke="#d7dce0" stroke-width="1.6" stroke-linecap="round"/><circle cx="14" cy="31" r="2.6" fill="#8f969d"/><circle cx="78" cy="31" r="2.6" fill="#8f969d"/><rect x="26" y="29" width="40" height="4" rx="2" fill="#a5acb3"/></svg>`;
@@ -672,18 +681,22 @@ function lockSel(sr){const g=getSelection(),r=sr&&ed.contains(sr.commonAncestorC
  if(!rs.length)return;rs.forEach(q=>{const w=document.createElement('span');w.dataset.lk=id;w.contentEditable='false';w.append(q.extractContents());q.insertNode(w)});g.removeAllRanges();flush();toast('잠갔습니다')}
 function unlockGrp(lk){if(lk.dataset.m){delete lk.dataset.lk;lk.removeAttribute('contenteditable')}else{const id=lk.dataset.lk;ed.querySelectorAll(`span[data-lk="${id}"]`).forEach(x=>x.replaceWith(...x.childNodes));ed.normalize()}flush();tabs()}
 // ── 뽀모도로 ──
-let PM=(S.set&&S.set.pomo)||[],PQ=null;
+let PM=(S.set&&S.set.pomo)||[],PQ=null,pomoUp=0;
 const hm=t=>{const d=new Date(t);return String(d.getHours()).padStart(2,0)+':'+String(d.getMinutes()).padStart(2,0)};
 function pomoSave(){if(DH)wq=wq.then(()=>writeFile('_뽀모도로.json',JSON.stringify({recs:PM}))).catch(()=>{})}
+function placePomo(){const el=$('#pomo');if(!el||!G.W)return;el.style.left='-64px';el.style.top=(G.H*.08)+'px'}
 function pomoBeep(){try{const c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=660;g.gain.setValueAtTime(.08,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.6);o.start();o.stop(c.currentTime+.6)}catch(e){}}
-function pomoRender(anim){const el=$('#pomo');if(!el)return;const f=x=>x?`${hm(x.a)}→${hm(x.b)}  ${x.n.toLocaleString()}자 ${x.d>=0?'+':''}${x.d}`:'',L=PM.length,run=PQ&&PQ.m==='work'?`▷ ${hm(PQ.a)} 진행 중`:'',dl=el.querySelector('.dl');
- dl.innerHTML=`<div class="r r0">${f(PM[L-2])}</div><div class="r r1">${f(PM[L-1])}</div><div class="r r2">${run}</div>`;el.querySelector('.md').textContent=PQ?(PQ.m==='work'?'집중':'휴식'):'대기';el.querySelector('.pb').textContent=PQ?'중지':'시작';
+function pomoShow(){const l=PQ?Math.max(0,PQ.b-(PQ.p||Date.now())):25*6e4;$('#pomo .tm').textContent=String(Math.floor(l/6e4)).padStart(2,0)+':'+String(Math.floor(l/1000)%60).padStart(2,0)}
+function pomoRender(anim){const el=$('#pomo');if(!el)return;const f=x=>x?`${hm(x.a)}→${hm(x.b)}  ${x.n.toLocaleString()}자 ${x.d>=0?'+':''}${x.d}`:'',L=PM.length,run=PQ&&PQ.m==='work'?`▷ ${hm(PQ.a)} ${PQ.p?'정지 중':'진행 중'}`:'',dl=el.querySelector('.dl');
+ dl.innerHTML=`<div class="r r0">${f(PM[L-2])}</div><div class="r r1">${f(PM[L-1])}</div><div class="r r2">${run}</div>`;
+ el.querySelector('.md').textContent=PQ?(PQ.m==='work'?'집중':'휴식')+(PQ.p?' · 정지':''):'대기';el.querySelector('.pb').textContent=!PQ?'시작':PQ.p?'이어서':'정지';pomoShow();
  if(anim)dl.animate([{transform:'translateY(14px)'},{transform:'translateY(0)'}],{duration:380,easing:'cubic-bezier(.3,.7,.2,1)'})}
 function pomoNext(){if(!PQ)return;const late=Date.now()-PQ.b>6e4,now=late?Date.now():PQ.b;
- if(PQ.m==='work'){flush();const d=cur(),n=d?cnt(d.md):0,t=d?d.title:'',pv=[...PM].reverse().find(x=>x.doc===t),base=pv?pv.n:(PQ.doc===t?PQ.n0:n);PM.push({a:PQ.a,b:PQ.b,doc:t,n,d:n-base});S.set.pomo=PM;persist();pomoSave();PQ={m:'break',a:now,b:now+5*6e4};pomoBeep();toast('집중 시간 종료 · 5분 휴식');pomoRender(1)}
- else{const d=cur();PQ={m:'work',a:now,b:now+25*6e4,doc:d?d.title:'',n0:d?cnt(d.md):0};pomoBeep();toast('휴식 종료 · 집중 시작');pomoRender()}}
-function pomoTick(){if(!PQ)return;const left=PQ.b-Date.now();if(left<=0){pomoNext();return}$('#pomo .tm').textContent=String(Math.floor(left/6e4)).padStart(2,0)+':'+String(Math.floor(left/1000)%60).padStart(2,0)}
-$('#pomo .pb').onclick=e=>{e.stopPropagation();if(PQ){PQ=null;pomoRender();$('#pomo .tm').textContent='25:00'}else{flush();const d=cur();PQ={m:'work',a:Date.now(),b:Date.now()+25*6e4,doc:d?d.title:'',n0:d?cnt(d.md):0};pomoRender();pomoTick()}};
+ if(PQ.m==='work'){flush();const d=cur(),n=d?cnt(d.md):0,t=d?d.title:'',pv=[...PM].reverse().find(x=>x.doc===t),base=pv?pv.n:(PQ.doc===t?PQ.n0:n);PM.push({a:PQ.a,b:PQ.b,doc:t,n,d:n-base});S.set.pomo=PM;persist();pomoSave();PQ={m:'break',a:now,b:now+5*6e4,p:0};pomoBeep();toast('집중 시간 종료 · 5분 휴식');pomoRender(1)}
+ else{const d=cur();PQ={m:'work',a:now,b:now+25*6e4,doc:d?d.title:'',n0:d?cnt(d.md):0,p:0};pomoBeep();toast('휴식 종료 · 집중 시작');pomoRender()}}
+function pomoTick(){if(!PQ)return;if(PQ.p){pomoShow();return}if(PQ.b-Date.now()<=0){pomoNext();return}pomoShow()}
+$('#pomo .pb').onclick=e=>{e.stopPropagation();if(!PQ){flush();const d=cur();PQ={m:'work',a:Date.now(),b:Date.now()+25*6e4,doc:d?d.title:'',n0:d?cnt(d.md):0,p:0}}else if(PQ.p){const dt=Date.now()-PQ.p;PQ.a+=dt;PQ.b+=dt;PQ.p=0}else PQ.p=Date.now();pomoRender()};
+$('#pomo').onclick=()=>{pomoUp=!pomoUp;$('#pomo').style.zIndex=pomoUp?++zTop:''};
 setInterval(pomoTick,500);pomoRender();
 // ── 폴더 저장 (File System Access) ──
 let DH=null,wq=Promise.resolve(),mt;const WM=new Map();
